@@ -23,14 +23,20 @@ import csv
 from pycocotools.coco import COCO
 from sentence_transformers import SentenceTransformer
 import argparse
+import urllib.request
+import zipfile
 
 parser = argparse.ArgumentParser(description="Scraping from corpus data with steering (optional)")
     
-parser.add_argument("--steer", type=str, default = "self-driving cars", help="Steering direction for the self-driving car")
+parser.add_argument("--steer", type=str, default = "", help="Steering direction for the self-driving car")
 parser.add_argument("--corpus_data", type=str, default = "MS-COCO", help="Corpus data to scrape")
 parser.add_argument("--num_output", type=int, default = 150, help="Number of entries we want")
 parser.add_argument("--api_key", type=str, default = "", help="API Key for openAI account")
 parser.add_argument("--do_steer", action=argparse.BooleanOptionalAction, default=False, help="do_steer")
+
+
+args = parser.parse_args()
+unique_rows = set() # create a set to store unique rows
 
 # Erik, your api_key
 openai.api_key = args.api_key
@@ -62,7 +68,31 @@ def load_bert_model():
 
     return bert_model
 
+def download_and_extract_dataset_SNLI(url, data_dir):
+    file_path = os.path.join(data_dir, 'snli_1.0.zip')
+
+    # Check if the snli_1.0.zip is already downloaded
+    if not os.path.exists(file_path):
+        print("Downloading the SNLI dataset...")
+        urllib.request.urlretrieve(url, file_path)
+
+    # Check if the SNLI dataset is already extracted
+    if not os.path.exists(os.path.join(data_dir, 'snli_1.0')):
+        print("Extracting the SNLI dataset...")
+        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+            zip_ref.extractall(data_dir)
+        os.remove(file_path)
+
+
 def load_snli():
+
+
+    data_dir = '.'
+    annotations_url = url = "https://nlp.stanford.edu/projects/snli/snli_1.0.zip"  # URL to download the SNLI dataset
+
+
+    download_and_extract_dataset_SNLI(annotations_url, data_dir)
+
     # Define the path to the dataset file
     snli_train_file = "snli_1.0/snli_1.0_train.jsonl"
     snli_dev_file = "snli_1.0/snli_1.0_dev.jsonl"
@@ -108,11 +138,34 @@ def load_captions(annotations_path):
 
     return all_captions
 
+
+
+def download_and_extract_dataset_COCO(url, data_dir):
+    
+    os.makedirs(data_dir, exist_ok=True)  # Ensure the directory exists
+    file_path = os.path.join(data_dir, 'annotations.zip')
+
+    # Check if the annotations.zip is already downloaded
+    if not os.path.exists(file_path):
+        print("Downloading the annotations...")
+        urllib.request.urlretrieve(url, file_path)
+
+    # Check if the annotations are already extracted
+    if not os.path.exists(os.path.join(data_dir, 'annotations')):
+        print("Extracting the annotations...")
+        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+            zip_ref.extractall(data_dir)
+        os.remove(file_path)
+
 def load_coco():
     # Set the paths to the dataset and annotations files
     data_dir = 'coco_annotation'
-    annotations_train_path = os.path.join(data_dir, 'captions_train2017.json')
-    annotations_val_path = os.path.join(data_dir, 'captions_val2017.json')
+    annotations_url = "http://images.cocodataset.org/annotations/annotations_trainval2017.zip"
+
+    download_and_extract_dataset_COCO(annotations_url, data_dir)
+
+    annotations_train_path = os.path.join(data_dir, 'annotations', 'captions_train2017.json')
+    annotations_val_path = os.path.join(data_dir, 'annotations', 'captions_val2017.json')
 
     # Load captions for both training and validation sets
     all_captions_train = load_captions(annotations_train_path)
@@ -160,6 +213,7 @@ def write_unique_rows(row, writer):
         writer.writerow(row)
 
         return True
+
     return False
      
 
@@ -178,7 +232,6 @@ def scrape(clip_model, tokenizer, bert_model, premises, similarity_threshold = 0
         text_embeds_prompts_batch = torch.from_numpy(text_embeds_prompts_batch)
         text_embeds_prompts_batch = F.normalize(text_embeds_prompts_batch, dim=1)
 
-        #text_embeds_prompts_batch = F.normalize(text_embeds_prompts_batch, dim=1)
         bert_text_embeds_prompts.append(text_embeds_prompts_batch)
 
     # Concatenate the embeddings for all batches
@@ -235,10 +288,10 @@ def scrape(clip_model, tokenizer, bert_model, premises, similarity_threshold = 0
         
    
     # Write similar pairs to a CSV file
-    file_path = f'similar_premises_top{args.num_output}_do_steer{args.do_steer}_steer{args.steer}.csv'
+    file_path = f'similar_from_{args.corpus_data}_top{args.num_output}_do_steer{args.do_steer}_steer{args.steer}.csv'
     with open(file_path, mode='w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
-        csv_writer.writerow(['Sample 1', 'Sample 2', 'Similarity Score', 'Bert Score'])
+        csv_writer.writerow(['Sample 1', 'Sample 2'])
 
         negative_keywords = ["there is no", "unable", "does not", "do not", "am not", "no image", "no picture"]
 
@@ -257,9 +310,6 @@ def scrape(clip_model, tokenizer, bert_model, premises, similarity_threshold = 0
                 if args.do_steer:
 
                     question = f'Is the difference between "{prompt1}" and "{prompt2}" important for {args.steer}?'
-                    answer = get_yes_no_answer(question)
-                    #print(question)
-                    #print(answer)
 
                     if answer == "yes":
                         # Write the unique row to the output file
@@ -272,18 +322,19 @@ def scrape(clip_model, tokenizer, bert_model, premises, similarity_threshold = 0
                             exit()
                 else:
                     is_unique = write_unique_rows(pair, csv_writer)
-                        if is_unique:
-                            num_written += 1
+                    if is_unique:
+                        num_written += 1
 
-                        if num_written == args.num_output:
-                            print("I finished!")
+                    if num_written == args.num_output:
+                        print("I finished!")
+                        exit()
 
 
 
 
 if __name__ == '__main__':
     
-    args = parser.parse_args()
+    
 
     model, tokenizer, processor = load_clip_model()
     bert_model = load_bert_model()
