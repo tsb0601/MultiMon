@@ -1,4 +1,10 @@
-### Running the Code
+# Mass-Producing Failures of Multimodal Models
+
+![The MultiMon pipeline](Pipeline/pipeline.png)
+
+Authors: Shengbang Tong*, Erik Jones*, Jacob Steinhardt
+
+### Running and Using MultiMon
 
 #### Step 1: Scraping from corpus data
 
@@ -21,6 +27,7 @@ python scrape.py --corpus_data MS-COCO --num_output 150
 ```
 
 #### Step 2: Categorizing systematic failure
+After scraping the corpus data, replace the failure instances with the scraped failure instances and prompts LLM (GPT-4 or Claude)
 ```
 I will provide a series of data for you to remember. Subsequently, I will ask you some questions to test your performance! Here are some pairs of prompts for you to memorize. 
 [Copy paste the failure instances scraped in csv file from previous step]
