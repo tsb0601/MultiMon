@@ -21,10 +21,6 @@ To run the script, navigate to the directory containing `scrape.py` in your term
 ```
 python scrape.py --steer [your_value] --corpus_data [your_value] --num_output [your_value] --api_key [your_value] --do_steer [your_value]
 ```
-For exnmple, if we want to scrape 150 entries from MS-COCO without steering, we run
-```
-python scrape.py --corpus_data MS-COCO --num_output 150
-```
 
 #### Step 2: Categorizing systematic failures
 After scraping the corpus data, replace the failure instances with the scraped failure instances and prompts LLM (GPT-4 or Claude)
@@ -46,3 +42,7 @@ You will be evaluated on how well you actually perform. Your sentence structure 
 Failure Mode:
 [Systematic Failure (with full description)]
 ```
+
+### See Also
+
+For a more detailed demonstration, see the [Full Demo](Demo/demo.md) walkthrough.
