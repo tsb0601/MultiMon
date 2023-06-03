@@ -146,5 +146,10 @@ Then, continue the conversation with:
 ```
 I’m trying to find failures with an embedding model. The above are some pairs of sentences that it encodes very similarly, even though they’re conveying different concepts. Using these specific examples, are there any general types of failures you notice the embedding is making, or any common features that the embedding fails to encode? Try to give failures that are specific enough that someone could reliably produce examples that the embedding would encode similarly, even though it shouldn’t. Please try to give as many general failures as possible. Please focus on differences that are important visually, as these embeddings are later used to generate images, or videos. In your failure modes, please explain clearly why the failure would lead to problems for future tasks related to visual generation.Please summarize as many as you can and stick to the examples.
 ```
-You should see 
+You should see summarized systematic failures. Due to randomness of these LLM, there should contain outputs looking like the following:
+
+<details>
+<summary><b>1. Negation</b></summary>
+Embedding models may not correctly capture the negative context in a sentence, leading to similarities between sentences with and without negation, This can result in incorrect visual representations, as the presence or absence of an action is significant in image or video generation.
+</details>
 
