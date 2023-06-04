@@ -190,11 +190,9 @@ Embedding models may struggle to differentiate between sentences that describe d
 
 ### Step 3: Generating failure instances
 For example, if we want to generate new failure instances with the systematic failure negation:
-<details>
-<summary><b>Negation</b></summary>
-Embedding models may not correctly capture the negative context in a sentence, leading to similarities between sentences with and without negation. This can result in incorrect visual representations, as the presence or absence of an action is significant in image or video generation.
-</details>
-We start a new conversastion with GPT-4 with the following messag
+Negation: Embedding models may not correctly capture the negative context in a sentence, leading to similarities between sentences with and without negation. This can result in incorrect visual representations, as the presence or absence of an action is significant in image or video generation.
+
+We start a new conversastion with GPT-4 with the following message
 ```
 Write down 41 additional pairs of prompts that an embedding model with the following failure mode might encode similarly, even though they would correspond to different images if used as captions. Use the following format:
 ("prompt1", "prompt2"),
@@ -203,9 +201,10 @@ You will be evaluated on how well you actually perform. Your sentence structure 
 Failure Mode:
 Negation: Embedding models may not correctly capture the negative context in a sentence, leading to similarities between sentences with and without negation. This can result in incorrect visual representations, as the presence or absence of an action is significant in image or video generation.
 ```
+
 GPT-4 should output responses like:
 <details>
-<summary><b></b></summary>
+<summary><b>See examples here</b></summary>
 ("A dog chasing a cat", "A dog not chasing a cat"),
 ("A man holding an umbrella", "A man not holding an umbrella"),
 ("A woman reading a book", "A woman not reading a book"),
