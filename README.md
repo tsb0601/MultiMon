@@ -51,3 +51,6 @@ Failure Mode:
 ### See Also
 
 For a more detailed demonstration, see the [Full Demo](Demo/demo.md) walkthrough.
+
+## Citation
+If you find this repository useful, please consider giving a star :star:
