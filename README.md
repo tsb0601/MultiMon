@@ -50,9 +50,18 @@ Failure Mode:
 
 Try the generated failure instances on Multimodal models such as MidJourney, Stable Diffusion, etc :D.
 
-### See Also
+#### See also
 
 For a more detailed demonstration, see the [Full Demo](Demo/demo.md) walkthrough.
+
+### Trying the user study in our work
+For both baseline produced failure instances and MultiMon produced failure instances, we choose a text-to-image model. We generate an image for each input, then ask two whether each the image corresponds to input 1, input 2, neither input, or if the inputs are visually indistinguishable. We say pair is a downstream failure if at least one image is labeled with an incorrect input, or with “neither”.
+To try the user study, run 
+```
+python annotate.py
+```
+Your results will be automatically reocrded in User_Study.csv, you can compare your answer with the ground truth in User Study (Answers).xlsx
+
 
 ## Citation
 If you find this repository useful, please consider giving a star :star:
