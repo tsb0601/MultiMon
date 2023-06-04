@@ -48,6 +48,8 @@ Failure Mode:
 [Systematic Failure (with full description)]
 ```
 
+Try the generated failure instances on Multimodal models such as MidJourney, Stable Diffusion, etc :D.
+
 ### See Also
 
 For a more detailed demonstration, see the [Full Demo](Demo/demo.md) walkthrough.

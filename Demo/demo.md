@@ -205,11 +205,11 @@ Negation: Embedding models may not correctly capture the negative context in a s
 GPT-4 should output responses like:
 <details>
 <summary><b>See examples here</b></summary>
+("A bird flying in the sky", "A bird not flying in the sky"),
 ("A dog chasing a cat", "A dog not chasing a cat"),
 ("A man holding an umbrella", "A man not holding an umbrella"),
 ("A woman reading a book", "A woman not reading a book"),
 ("A kid playing with a ball", "A kid not playing with a ball"),
-("A bird flying in the sky", "A bird not flying in the sky"),
 ("A fish swimming in a bowl", "A fish not swimming in a bowl"),
 ("A chef cooking in the kitchen", "A chef not cooking in the kitchen"),
 ("A car driving on a road", "A car not driving on a road"),
@@ -248,3 +248,12 @@ GPT-4 should output responses like:
 ("A clock ticking on the wall", "A clock not ticking on the wall")
 </details>
 
+### Step 4: Try generated failure instances in MultiModal Models. 
+For example, we try the first generated pair of failure instances in MidJourney 5.1 and get:
+<table>
+  <tr>
+    <td><img src="a_bird_flying_in_the_sky.png" alt="Image 1" style="width: 250px;"/><br/><center>A bird flying in the sky</center></td>
+    <td><img src="a_bird_not_flying_in_the_sky.png" alt="Image 2" style="width: 250px;"/><br/><center>A bird not flying in the sky</center></td>
+  </tr>
+</table>
+It is obvious to see that the bird should not be flying in the sky in the second picture.
