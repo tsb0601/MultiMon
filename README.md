@@ -6,6 +6,11 @@ Authors: Shengbang Tong*, Erik Jones*, Jacob Steinhardt
 
 ### Running and Using MultiMon
 
+#### Step 0: Install the necessary Python packages
+```
+pip install -r requirements.txt
+```
+
 #### Step 1: Scraping from corpus data
 
 You will need to run the `scrape.py` file. This file contains arguments that can be adjusted according to your needs:

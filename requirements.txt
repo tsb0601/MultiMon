@@ -1,0 +1,11 @@
+pandas
+numpy
+torch
+tkinter
+Pillow
+openai
+tqdm
+transformers
+sentence-transformers
+pycocotools
+argparse
