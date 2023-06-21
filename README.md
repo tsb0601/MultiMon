@@ -1,4 +1,4 @@
-# Mass-Producing Failures of Multimodal Models
+# ![](Multimon_emoji.png) Mass-Producing Failures of Multimodal Models with Language Models
 
 ![The MultiMon pipeline](Pipeline/pipeline.png)
 
