@@ -1,5 +1,7 @@
 # ![](Multimon_emoji.png) Mass-Producing Failures of Multimodal Models with Language Models
 
+[![arXiv](https://img.shields.io/badge/arXiv-2304.03977-b31b1b.svg)](https://arxiv.org/abs/2304.03977)
+
 ![The MultiMon pipeline](Pipeline/pipeline.png)
 
 Authors: Shengbang Tong*, Erik Jones*, Jacob Steinhardt
@@ -64,4 +66,14 @@ Your results will be automatically reocrded in User_Study.csv, you can compare y
 
 
 ## Citation
-If you find this repository useful, please consider giving a star :star:
+If you find this repository useful, please consider giving a star :star: and citation:
+
+```
+@misc{tong2023massproducing,
+      title={Mass-Producing Failures of Multimodal Systems with Language Models}, 
+      author={Shengbang Tong and Erik Jones and Jacob Steinhardt},
+      year={2023},
+      eprint={2306.12105},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
