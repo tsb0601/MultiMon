@@ -1,6 +1,6 @@
 # ![](Multimon_emoji.png) Mass-Producing Failures of Multimodal Models with Language Models
 
-[![arXiv](https://img.shields.io/badge/arXiv-2304.03977-b31b1b.svg)](https://arxiv.org/abs/2304.03977)
+[![arXiv](https://img.shields.io/badge/arXiv-2306.12105-b31b1b.svg)](https://arxiv.org/abs/2306.12105)
 
 ![The MultiMon pipeline](Pipeline/pipeline.png)
 
